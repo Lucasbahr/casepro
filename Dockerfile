@@ -1,8 +1,10 @@
 # Use a imagem Python oficial como base
 FROM python:3.10
 
+ENV PYTHONUNBUFFERED=1
+
 # Define o diretório de trabalho dentro do contêiner
-WORKDIR /app
+WORKDIR /usr/src/app
 
 # Instalação do Node.js e npm
 RUN apt-get update && apt-get install -y \

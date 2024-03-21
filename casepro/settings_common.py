@@ -37,6 +37,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 EMAIL_BACKEND = "djcelery_email.backends.CeleryEmailBackend"
 SEND_EMAILS = TESTING  # safe to send emails during tests as these use a fake backend
 
+
 # dash configuration
 SITE_API_HOST = os.getenv('SITE_API_HOST')
 SITE_API_USER_AGENT = "casepro/0.1"
@@ -426,7 +427,7 @@ INTERNAL_IPS = ("127.0.0.1",)
 # -----------------------------------------------------------------------------------
 # Django-celery
 # -----------------------------------------------------------------------------------
-CELERY_BROKER_URL = f"redis://redis:6379/{(10 if TESTING else 15)}"                                   
+CELERY_BROKER_URL = f"{os.getenv('CELERY_BROKER_URL')}/{(10 if TESTING else 15)}"                                   
 CELERY_RESULT_BACKEND = None  # task results are stored internally
 CELERY_TIMEZONE = "UTC"
 CELERY_BEAT_SCHEDULE = {

@@ -11,7 +11,7 @@ ALLOWED_HOSTS = ["localhost", ".localhost","0.0.0.0" ]
 # INSTALLED_APPS = INSTALLED_APPS + ('debug_toolbar.apps.DebugToolbarConfig',)
 # MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
 
-DEBUG = True
+DEBUG = os.getenv('DEBUG')
 
 HOSTNAME = "0.0.0.0:8000"
 

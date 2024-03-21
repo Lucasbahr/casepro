@@ -5,7 +5,6 @@ services:
     build: .
     command: >
       sh -c "python manage.py migrate &&
-             python manage.py createsuperuser --noinput --username=$DJANGO_SUPERUSER_USERNAME --email=$DJANGO_SUPERUSER_EMAIL &&
              python manage.py runserver 0.0.0.0:8000"
     ports:
       - "8000:8000"
@@ -18,6 +17,26 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
+      - CELERY_BROKER_URL=${CELERY_BROKER_URL}
+      - DEBUG=${DEBUG}
+    networks:
+      - mynetwork
+
+  celery:
+    build: .
+    command: celery -A casepro worker -Q celery -B -n casepro.celery --loglevel=INFO
+    environment:
+      - SITE_API_HOST=http://0.0.0.0:8001/
+      - SITE_BACKEND=casepro.backend.rapidpro.RapidProBackend
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - CELERY_BROKER_URL=${CELERY_BROKER_URL}
+      - DEBUG=${DEBUG}
+    depends_on:
+      - db
+      - redis
+      - web
     networks:
       - mynetwork
 
@@ -27,11 +46,15 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - db_data:/var/lib/postgresql/data
     networks:
       - mynetwork
 
   redis:
-    image: redis:latest
+    image: redis:alpine
+    volumes:
+      - .:/usr/src/app
     ports:
       - "6379:6379"
     networks:
@@ -39,3 +62,6 @@ services:
 
 networks:
   mynetwork:
+
+volumes:
+  db_data:
