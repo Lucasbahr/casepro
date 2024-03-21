@@ -38,9 +38,9 @@ EMAIL_BACKEND = "djcelery_email.backends.CeleryEmailBackend"
 SEND_EMAILS = TESTING  # safe to send emails during tests as these use a fake backend
 
 # dash configuration
-SITE_API_HOST = "http://localhost:8001/"
+SITE_API_HOST = os.getenv('SITE_API_HOST')
 SITE_API_USER_AGENT = "casepro/0.1"
-SITE_HOST_PATTERN = "http://%s.localhost:8000"
+SITE_HOST_PATTERN = "http://%s.0.0.0.0:8000"
 SITE_CHOOSER_URL_NAME = "orgs_ext.org_chooser"
 SITE_CHOOSER_TEMPLATE = "org_chooser.haml"
 SITE_USER_HOME = "/"
@@ -59,8 +59,8 @@ SITE_ALLOW_NO_ORG = (
 
 # casepro configuration
 SITE_ORGS_STORAGE_ROOT = "orgs"
-SITE_EXTERNAL_CONTACT_URL = "http://localhost:8001/contact/read/%s/"
-SITE_BACKEND = "casepro.backend.NoopBackend"
+SITE_EXTERNAL_CONTACT_URL = "http://0.0.0.0:8001/contact/read/%s/"
+SITE_BACKEND = os.getenv('SITE_BACKEND')
 SITE_HIDE_CONTACT_FIELDS = []  # Listed fields should not be displayed
 SITE_CONTACT_DISPLAY = "name"  # Overrules SITE_HIDE_CONTACT_FIELDS Options: 'name', 'uuid' or 'urns'
 SITE_REDACT_URNS = True
@@ -68,7 +68,7 @@ SITE_ALLOW_CASE_WITHOUT_MESSAGE = True
 SITE_MAX_MESSAGE_CHARS = 160  # the max value for this is 800
 
 # junebug configuration
-JUNEBUG_API_ROOT = "http://localhost:8080/"
+JUNEBUG_API_ROOT = "http://0.0.0.0:8080/"
 JUNEBUG_INBOUND_URL = r"^junebug/inbound$"
 JUNEBUG_CHANNEL_ID = "replace-me"
 JUNEBUG_FROM_ADDRESS = None
@@ -77,7 +77,7 @@ JUNEBUG_HUB_BASE_URL = None
 JUNEBUG_HUB_AUTH_TOKEN = None
 
 # identity store configuration
-IDENTITY_API_ROOT = "http://localhost:8081/"
+IDENTITY_API_ROOT = "http://0.0.0.0:8081/"
 IDENTITY_AUTH_TOKEN = "replace-with-auth-token"
 IDENTITY_ADDRESS_TYPE = "msisdn"
 IDENTITY_STORE_OPTOUT_URL = r"^junebug/optout$"
@@ -154,7 +154,7 @@ ROOT_URLCONF = "casepro.urls"
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/15",
+        "LOCATION": "redis://redis:6379/15",
         "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
     }
 }
@@ -426,7 +426,7 @@ INTERNAL_IPS = ("127.0.0.1",)
 # -----------------------------------------------------------------------------------
 # Django-celery
 # -----------------------------------------------------------------------------------
-CELERY_BROKER_URL = f"redis://localhost:6379/{(10 if TESTING else 15)}"
+CELERY_BROKER_URL = f"redis://redis:6379/{(10 if TESTING else 15)}"                                   
 CELERY_RESULT_BACKEND = None  # task results are stored internally
 CELERY_TIMEZONE = "UTC"
 CELERY_BEAT_SCHEDULE = {

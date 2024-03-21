@@ -24,7 +24,7 @@ class OrgExtTest(BaseCasesTest):
 
         backend_cfg = acme.backends.get()
         self.assertEqual(backend_cfg.backend_type, "casepro.test.TestBackend")
-        self.assertEqual(backend_cfg.host, "http://localhost:8001/")
+        self.assertEqual(backend_cfg.host, "http://0.0.0.0:8001/")
 
         backend = acme.get_backend()
         self.assertIsInstance(backend, TestBackend)
