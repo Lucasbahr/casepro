@@ -33,13 +33,13 @@ O [Dockerfile](Dockerfile)  contém as instruções para criar a imagem Docker d
 
 ### Docker Compose
 
-O arquivo [docker-compose.yml](docker-compose.yml) define os três serviços necessários para executar o CasePro: web, db (PostgreSQL) e redis. Também configura uma rede para permitir a comunicação entre esses serviços. As variáveis são consumidas do arquivo [.env](.env).
+O arquivo [docker-compose.yml](docker-compose.yml) define os quatros serviços necessários para executar o CasePro: web, db (PostgreSQL), redis e celery. Também configura uma rede para permitir a comunicação entre esses serviços e cria volumes persistentes para o banco de dados. As variáveis são consumidas do arquivo [.env](.env).
 
 ![docker-compose.yml](images/docker-compose.png)
 
 ### Variáveis de Ambiente
 
-As variáveis de ambiente são utilizadas para configurar o serviço CasePro. Um arquivo [.env](.env) é fornecido para definir as variáveis necessárias, incluindo informações de usuário e email, bem como as credenciais do banco de dados.
+As variáveis de ambiente são utilizadas para configurar o serviço CasePro. Um arquivo [.env](.env) é fornecido para definir as variáveis necessárias, incluindo informações de usuário e email, bem como as credenciais do banco de dados e algumas configuracoes.
 
 ![.env](images/env.png)
 
@@ -56,6 +56,12 @@ Da mesma forma, a configuração do Redis também foi ajustada para permitir que
 
 ![settings_common.py](images/redis-cache.png)
 ![settings_common.py](images/celery.png)
+
+### Script
+
+Foi criado um [script.sh](script.sh)  para criar o superuser e também realizar a migração do banco de dados. Ele é copiado para dentro do contêiner e executado durante a inicialização do mesmo.
+
+![script.py](images/script.png)
 
 ### Resultado
 

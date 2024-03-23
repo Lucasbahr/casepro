@@ -1,0 +1,30 @@
+django:
+  deployment:
+    spec:
+      replicas: 1
+      template:
+        spec:
+          containers:
+            resources:
+              limits:
+                cpu: "1"
+                memory: "512Mi"
+            ports:
+              containerPort: 8000
+            image:
+                name: lucasbahr/casepro
+                tag: 1.0.2
+  service:
+    spec:
+      ports:
+          protocol: TCP
+          port: 8000
+          targetPort: 8000
+      type: LoadBalancer
+  ingress:
+    spec:
+      ingressClassName: nginx
+      rules:
+        host: casepro.192.168.49.2.nip.io
+
+

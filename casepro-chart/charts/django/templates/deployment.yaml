@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-django
+  namespace: {{ .Values.global.namespace }}
+spec:
+  replicas: {{ .Values.django.deployment.spec.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-django
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-django
+    spec:
+      containers:
+      - name: {{ .Release.Name }}-django
+        image: "{{ .Values.django.deployment.spec.template.spec.containers.image.name }}:{{ .Values.django.deployment.spec.template.spec.containers.image.tag }}"
+        command: ["sh", "-c", "/usr/local/bin/script.sh && python manage.py runserver 0.0.0.0:8000"]
+        ports:
+        - containerPort: {{ .Values.django.deployment.spec.template.spec.containers.ports.containerPort }}
+        resources:
+          limits:
+            cpu: {{ .Values.django.deployment.spec.template.spec.containers.resources.limits.cpu }}
+            memory: {{ .Values.django.deployment.spec.template.spec.containers.resources.limits.memory }}
+        env:
+        - name: DJANGO_SUPERUSER_EMAIL
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-casepro-secrets
+              key: DJANGO_SUPERUSER_EMAIL
+        - name: DJANGO_SUPERUSER_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-casepro-secrets
+              key: DJANGO_SUPERUSER_USERNAME
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-casepro-secrets
+              key: POSTGRES_USER
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-casepro-secrets
+              key: POSTGRES_PASSWORD
+        - name: POSTGRES_DB
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-casepro-secrets
+              key: POSTGRES_DB
+{{- range .Values.global.commonEnv }}
+        - name: {{ .name }}
+          value: {{ .value | quote }}
+{{- end }}

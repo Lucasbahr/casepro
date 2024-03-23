@@ -1,0 +1,26 @@
+redis:
+  deployment:
+    spec:
+      replicas: 1
+      template:
+        spec:
+          containers:
+            resources:
+              limits:
+                cpu: "1"
+                memory: "512Mi"
+            autoscalingEnabled: true
+            autoscaling:
+              minReplicas: 2
+              maxReplicas: 10
+              targetCPUUtilizationPercentage: 50
+            image:
+              name: redis
+              tag: alpine 
+  service:
+    spec:
+      ports:
+          protocol: TCP
+          port: 6379
+          targetPort: 6379
+      type: ClusterIP

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  namespace: {{ .Values.global.namespace }}
+spec:
+  selector:
+    app: {{ .Release.Name }}-redis
+  ports:
+    - protocol: {{ .Values.redis.service.spec.ports.protocol }}
+      port: {{ .Values.redis.service.spec.ports.port }}
+      targetPort: {{ .Values.redis.service.spec.ports.targetPort }}
+  type: ClusterIP  

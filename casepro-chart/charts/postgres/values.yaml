@@ -1,0 +1,30 @@
+postgres:
+  deployment:
+    spec:
+      replicas: 1
+      template:
+        spec:
+          containers:
+            resources:
+              limits:
+                cpu: "1"
+                memory: "512Mi"
+            ports:
+              containerPort: 5432
+            image:
+              name: postgres
+              tag: alpine 
+            volumeMounts:
+                mountPath: /var/lib/postgresql/data
+                name: postgres-storage
+          volumes:
+            name: postgres-storage
+            persistentVolumeClaim:
+              claimName: postgres-storage
+  service:
+    spec:
+      ports:
+          protocol: TCP
+          port: 5432
+          targetPort: 5432
+      type: ClusterIP

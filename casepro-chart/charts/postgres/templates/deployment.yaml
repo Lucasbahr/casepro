@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-postgres
+  namespace: {{ .Values.global.namespace }}
+spec:
+  replicas: {{ .Values.postgres.deployment.spec.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-postgres
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-postgres
+    spec:
+      containers:
+        - name: {{ .Release.Name }}-postgres
+          image: "{{ .Values.postgres.deployment.spec.template.spec.containers.image.name }}:{{ .Values.postgres.deployment.spec.template.spec.containers.image.tag }}"
+          ports:
+            - containerPort: {{ .Values.postgres.deployment.spec.template.spec.containers.ports.containerPort }}
+          resources:
+            limits:
+              cpu: {{ .Values.postgres.deployment.spec.template.spec.containers.resources.limits.cpu }}
+              memory: {{ .Values.postgres.deployment.spec.template.spec.containers.resources.limits.memory }}
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-casepro-secrets
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-casepro-secrets
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-casepro-secrets
+                  key: POSTGRES_DB
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: {{ .Release.Name }}-postgres
+              readOnly: false
+      volumes:
+        - name: {{ .Release.Name }}-postgres
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-postgres

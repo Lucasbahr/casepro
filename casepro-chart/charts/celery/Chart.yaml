@@ -1,0 +1,8 @@
+apiVersion: v2
+name: celery
+description: A Helm chart for deploying Celery application
+version: 0.1.0
+dependencies:
+  - name: redis
+    version: "0.1.0"
+    repository: "file://../django"

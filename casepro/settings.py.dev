@@ -6,7 +6,7 @@ DB_USER = os.getenv('POSTGRES_USER')
 DB_PASSWORD = os.getenv('POSTGRES_PASSWORD')
 POSTGRES_DB = os.getenv('POSTGRES_DB')
  
-ALLOWED_HOSTS = ["localhost", ".localhost","0.0.0.0" ]
+ALLOWED_HOSTS = ["localhost", ".localhost","0.0.0.0","casepro.192.168.49.2.nip.io" ]
 
 # INSTALLED_APPS = INSTALLED_APPS + ('debug_toolbar.apps.DebugToolbarConfig',)
 # MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)

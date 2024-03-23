@@ -32,5 +32,9 @@ COPY ./casepro/settings.py.dev ./casepro/settings.py
 # Expõe a porta 8000 para acessar a aplicação
 EXPOSE 8000
 
+COPY script.sh /usr/local/bin/script.sh
+
+RUN chmod +x /usr/local/bin/script.sh
+
 # Comando para iniciar a aplicação
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

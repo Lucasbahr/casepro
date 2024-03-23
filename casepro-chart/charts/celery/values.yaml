@@ -1,0 +1,26 @@
+celery:
+  deployment:
+    spec:
+      replicas: 1
+      template:
+        spec:
+          containers:
+            resources:
+              limits:
+                cpu: "1"
+                memory: "512Mi"
+            name: casepro-celery
+            image:
+              name: lucasbahr/casepro
+              tag: 1.0.2
+
+            ports:
+                containerPort: 8000
+
+  service:
+    spec:
+      ports:
+          protocol: TCP
+          port: 8000
+          targetPort: 8000
+      type: ClusterIP
