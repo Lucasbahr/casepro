@@ -39,11 +39,11 @@ A base do recurso inclui um [secrets.yaml](./templates/secrets.yaml)  para criar
 
 ### Django
 
-Para subir o serviço web, foi utilizado um [ingress.yaml](./charts/django/templates/ingress.yaml) para disponibilizar o acesso externo, configurado no IP [http://casepro.192.168.49.2.nip.io/](http://casepro.192.168.49.2.nip.io/) usando [nip.io](https://nip.io/). O [service.yaml](./charts/django/templates/service.yaml) está com LoadBalancer para acesso externo. Dentro do [deployment.yaml](./charts/django/templates/deployment.yaml) está toda a configuração do pod, incluindo o comando de inicialização que executa o [script.sh](../script.sh) para migrar e criar o superusuário conforme documentação do CasePro, assim como as variáveis de ambiente disponibilizadas no [secrets.yaml](./templates/secrets.yaml) . Todas as variáveis estão no arquivo [values.yaml](./charts/django/templates/values.yaml).
+Para subir o serviço web, foi utilizado um [ingress.yaml](./charts/django/templates/ingress.yaml) para disponibilizar o acesso externo, configurado no IP [http://casepro.192.168.49.2.nip.io/](http://casepro.192.168.49.2.nip.io/) usando [nip.io](https://nip.io/). O [service.yaml](./charts/django/templates/service.yaml) está com LoadBalancer para acesso externo. Dentro do [deployment.yaml](./charts/django/templates/deployment.yaml) está toda a configuração do pod, incluindo o comando de inicialização que executa o [script.sh](../script.sh) para migrar e criar o superusuário conforme documentação do CasePro, assim como as variáveis de ambiente disponibilizadas no [secrets.yaml](./templates/secrets.yaml) . Todas as variáveis estão no arquivo [values.yaml](./charts/django/values.yaml).
 
 ### Postgres
 
-O [deployment.yaml](./charts/postgres/templates/deployment.yaml) utiliza uma imagem padrão do serviço disponibilizado no DockerHub, conforme pode ser conferido no [values.yaml](./charts/postgres/templates/values.yaml). O Postgres está com volumes persistentes criados no arquivo [storage.yaml](./charts/postgres/templates/storage.yaml) para garantir a persistência dos dados no banco, e também utiliza as variáveis do [secrets.yaml](./templates/secrets.yaml) . O [service.yaml](./charts/postgres/templates/service.yaml)  está configurado para comunicação interna com ClusterIP.
+O [deployment.yaml](./charts/postgres/templates/deployment.yaml) utiliza uma imagem padrão do serviço disponibilizado no DockerHub, conforme pode ser conferido no [values.yaml](./charts/postgres/values.yaml). O Postgres está com volumes persistentes criados no arquivo [storage.yaml](./charts/postgres/templates/storage.yaml) para garantir a persistência dos dados no banco, e também utiliza as variáveis do [secrets.yaml](./templates/secrets.yaml) . O [service.yaml](./charts/postgres/templates/service.yaml)  está configurado para comunicação interna com ClusterIP.
 
 ### Redis
 
@@ -51,8 +51,13 @@ O [deployment.yaml](./charts/redis/templates/deployment.yaml) está configurado 
 
 ### Autoescala
 
-Os deployments do Redis podem ser configurados para autoescalar com base na carga de CPU. É necessário definir as configurações adequadas no arquivo [values.yaml](./charts/redis/templates/values.yaml) e habilitar a seção de `horizontalPodAutoscaler` nos manifestos do Kubernetes.
+Os deployments do Redis podem ser configurados para autoescalar com base na carga de CPU. É necessário definir as configurações adequadas no arquivo [values.yaml](./charts/redis/values.yaml) e habilitar a seção de `horizontalPodAutoscaler` nos manifestos do Kubernetes.
 
 ### Configuração do Django
 
 Vários pontos do arquivo `settings_common.py` foram ajustados para ler as variáveis de ambiente que já estão configuradas em vez de informar os dados diretamente.
+
+
+## Resultado
+
+![Resultado Helm](../images/recursos-helm.png)
