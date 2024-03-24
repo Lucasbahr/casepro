@@ -1,0 +1,29 @@
+name: Semantic Versioning on Master Merge
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  determine-version:
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'master'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Get Last Tag
+        id: get_last_tag
+        run: echo "::set-output name=tag::$(git describe --tags `git rev-list --tags --max-count=1`)"
+
+      - name: Determine Next Version
+        id: determine_next_version
+        uses: paulhatch/semantic-version@v5.3.0
+        with:
+          tag_prefix: "v"
+          major_pattern: "(MAJOR)"
+          minor_pattern: "(MINOR)"
+          version_format: "${major}.${minor}.${patch}"
+
+      - name: Use Version
+        run: echo "Next version is ${{ steps.determine_next_version.outputs.version }}"
