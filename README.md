@@ -21,13 +21,13 @@ Este repositório contém as configurações necessárias para executar o servi�
     docker-compose up --build
     ```
 
-3. Acesse o serviço CasePro em seu navegador através do seguinte link: [http://localhost:8000](http://localhost:8000)
+3. Acesse o serviço CasePro em seu navegador através do seguinte link: [http://0.0.0.0:8000](http://localhost:8000)
 
 ## Detalhes da Configuração
 
 ### Dockerfile do Serviço CasePro
 
-O [Dockerfile](Dockerfile)  contém as instruções para criar a imagem Docker do serviço CasePro. Ele utiliza a imagem Python e instala o Node.js e o npm para instalar as dependências do Node.
+O [Dockerfile](Dockerfile)  contém as instruções para criar a imagem Docker do serviço CasePro. Ele utiliza a imagem Python e instala o Node.js e o npm para instalar as dependências do Node. Alem de subir o script para migracao e criacao do superuser no banco de dados
 
 ![Dockerfile](images/dockerfile.png)
 

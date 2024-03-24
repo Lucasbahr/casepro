@@ -20,7 +20,7 @@ Este repositório contém as configurações necessárias para subir a infraestr
     ```bash
     cd terraform
     chmod +x keygen.sh
-    ./keygen.sh
+    ./keygen.sh <example@mail.com>
     ```
 
 3. Construa a VM:
