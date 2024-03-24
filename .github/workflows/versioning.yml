@@ -14,7 +14,10 @@ jobs:
 
       - name: Get Last Tag
         id: get_last_tag
-        run: echo "::set-output name=tag::$(git describe --tags `git rev-list --tags --max-count=1`)"
+        run: |
+          last_tag=$(git tag)
+          echo "tag=${last_tag}" >> $GITHUB_ENV
+
 
       - name: Determine Next Version
         id: determine_next_version
