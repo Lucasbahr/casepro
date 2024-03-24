@@ -1,0 +1,28 @@
+name: Versionamento
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+      - master
+      
+concurrency: production
+jobs:
+  build:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        ref: ${{ github.event.pull_request.merge_commit_sha }}
+        fetch-depth: '0'
+
+    - name: Versionando e dando Push na TAG
+      uses: anothrNick/github-tag-action@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN_GIT }}
+        WITH_V: true
+        PRERELEASE: false
