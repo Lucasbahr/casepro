@@ -1,4 +1,4 @@
-name: Semantic Versioning on Master Merge
+name: Semantic Versioning
 
 on:
   pull_request:
