@@ -1,25 +1,30 @@
 # import our default settings
 from casepro.settings_common import *  # noqa
+import os
 
-ALLOWED_HOSTS = ["localhost", ".localhost"]
+DB_USER = os.getenv('POSTGRES_USER')
+DB_PASSWORD = os.getenv('POSTGRES_PASSWORD')
+POSTGRES_DB = os.getenv('POSTGRES_DB')
+ 
+ALLOWED_HOSTS = ["localhost", ".localhost","0.0.0.0","casepro.192.168.49.2.nip.io" ]
 
 # INSTALLED_APPS = INSTALLED_APPS + ('debug_toolbar.apps.DebugToolbarConfig',)
 # MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
 
-DEBUG = True
+DEBUG = os.getenv('DEBUG')
 
-HOSTNAME = "localhost:8000"
+HOSTNAME = "0.0.0.0:8000"
 
-SITE_API_HOST = "http://localhost:8001/"
+SITE_API_HOST = os.getenv('SITE_API_HOST')
 
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "casepro",
-        "USER": "casepro",
-        "PASSWORD": "nyaruka",
-        "HOST": "localhost",
-        "PORT": "",
+        "NAME": POSTGRES_DB,
+        "USER": DB_USER,
+        "PASSWORD": DB_PASSWORD,
+        "HOST": "db",  # Atualizado para corresponder ao nome do serviço do banco de dados
+        "PORT": "",    
         "ATOMIC_REQUESTS": True,
         "OPTIONS": {},
     }

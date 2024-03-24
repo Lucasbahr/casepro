@@ -1,11 +1,8 @@
 {
   "name": "casepro",
   "version": "1.0.0",
-  "repository": "git@github.com:rapidpro/casepro.git",
-  "license": "BSD-3-Clause",
   "dependencies": {
-    "coffeescript": "2.7.0",
-    "less": "2.7.1"
-  },
-  "devDependencies": {}
+    "coffeescript": "^2.7.0",
+    "less": "^2.7.1"
+  }
 }

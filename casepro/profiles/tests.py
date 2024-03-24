@@ -54,13 +54,13 @@ class NotificationTest(BaseCasesTest):
                     [self.admin],
                     "New labelled message",
                     "profiles/email/message_labelling",
-                    {"labels": {self.aids}, "inbox_url": "http://unicef.localhost:8000/"},
+                    {"labels": {self.aids}, "inbox_url": "http://unicef.0.0.0.0:8000/"},
                 ),
                 call(
                     [self.user1],
                     "New labelled message",
                     "profiles/email/message_labelling",
-                    {"labels": {self.pregnancy}, "inbox_url": "http://unicef.localhost:8000/"},
+                    {"labels": {self.pregnancy}, "inbox_url": "http://unicef.0.0.0.0:8000/"},
                 ),
             ]
         )
@@ -78,7 +78,7 @@ class NotificationTest(BaseCasesTest):
                     [self.admin],
                     "New reply in case #%d" % case1.pk,
                     "profiles/email/case_reply",
-                    {"case_url": "http://unicef.localhost:8000/case/read/%d/" % case1.pk},
+                    {"case_url": "http://unicef.0.0.0.0:8000/case/read/%d/" % case1.pk},
                 )
             ]
         )
@@ -102,7 +102,7 @@ class NotificationTest(BaseCasesTest):
                         "user": self.user1,
                         "note": "General note",
                         "assignee": None,
-                        "case_url": "http://unicef.localhost:8000/case/read/%d/" % case1.pk,
+                        "case_url": "http://unicef.0.0.0.0:8000/case/read/%d/" % case1.pk,
                     },
                 ),
                 call(
@@ -113,7 +113,7 @@ class NotificationTest(BaseCasesTest):
                         "user": self.user1,
                         "note": "Close note",
                         "assignee": None,
-                        "case_url": "http://unicef.localhost:8000/case/read/%d/" % case1.pk,
+                        "case_url": "http://unicef.0.0.0.0:8000/case/read/%d/" % case1.pk,
                     },
                 ),
                 call(
@@ -124,7 +124,7 @@ class NotificationTest(BaseCasesTest):
                         "user": self.user1,
                         "note": None,
                         "assignee": None,
-                        "case_url": "http://unicef.localhost:8000/case/read/%d/" % case1.pk,
+                        "case_url": "http://unicef.0.0.0.0:8000/case/read/%d/" % case1.pk,
                     },
                 ),
                 call(
@@ -135,14 +135,14 @@ class NotificationTest(BaseCasesTest):
                         "user": self.admin,
                         "note": None,
                         "assignee": self.who,
-                        "case_url": "http://unicef.localhost:8000/case/read/%d/" % case1.pk,
+                        "case_url": "http://unicef.0.0.0.0:8000/case/read/%d/" % case1.pk,
                     },
                 ),
                 call(
                     [self.user3],
                     "New case assignment #%d" % case1.pk,
                     "profiles/email/case_assignment",
-                    {"user": self.admin, "case_url": "http://unicef.localhost:8000/case/read/%d/" % case1.pk},
+                    {"user": self.admin, "case_url": "http://unicef.0.0.0.0:8000/case/read/%d/" % case1.pk},
                 ),
             ]
         )

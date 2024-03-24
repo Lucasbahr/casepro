@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-django
+  namespace: {{ .Values.global.namespace }}
+spec:
+  ingressClassName: {{ .Values.django.ingress.spec.ingressClassName }}
+  rules:
+  - host: {{ .Values.django.ingress.spec.rules.host }}
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ .Release.Name }}-django
+            port:
+              number: 8000

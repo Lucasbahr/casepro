@@ -1,0 +1,39 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  namespace: {{ .Values.global.namespace }}
+  name: {{ .Release.Name }}-casepro
+provisioner: kubernetes.io/no-provisioner
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  namespace: {{ .Values.global.namespace }}
+  name: {{ .Release.Name }}-postgres
+  labels:
+    app: {{ .Release.Name }}-postgres 
+spec:
+  storageClassName: {{ .Release.Name }}-casepro
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt/data"
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: {{ .Values.global.namespace }}
+  name: {{ .Release.Name }}-postgres
+spec:
+  storageClassName: {{ .Release.Name }}-casepro
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi

@@ -1,0 +1,17 @@
+global:
+  namespace: casepro
+  commonEnv:
+    - name: SITE_API_HOST
+      value: "http://0.0.0.0:8001/"
+    - name: SITE_BACKEND
+      value: "casepro.backend.rapidpro.RapidProBackend"
+    - name: CELERY_BROKER_URL
+      value: redis://redis:6379
+    - name: DEBUG
+      value: "True"
+secrets:
+  DJANGO_SUPERUSER_EMAIL: bHVjYXNfYmFockBob3RtYWlsLmNvbQ==
+  DJANGO_SUPERUSER_USERNAME: bHVjYXNfYmFockBob3RtYWlsLmNvbQ==
+  POSTGRES_USER: Y2FzZXBybw==
+  POSTGRES_PASSWORD: bnlhcnVrYQ==
+  POSTGRES_DB: Y2FzZXBybw==

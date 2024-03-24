@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-redis
+  namespace: {{ .Values.global.namespace }}
+spec:
+  replicas: {{ .Values.redis.deployment.spec.replicas }}  
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-redis
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-redis
+    spec:
+      containers:
+      - name: {{ .Release.Name }}-redis
+        image: "{{ .Values.redis.deployment.spec.template.spec.containers.image.name }}:{{ .Values.redis.deployment.spec.template.spec.containers.image.tag }}"  
+        resources:
+          limits:
+            cpu: {{ .Values.redis.deployment.spec.template.spec.containers.resources.limits.cpu }}
+            memory: {{ .Values.redis.deployment.spec.template.spec.containers.resources.limits.memory }}
+      autoscaling:
+        minReplicas: {{ .Values.redis.deployment.spec.template.spec.containers.autoscaling.minReplicas }}
+        maxReplicas: {{ .Values.redis.deployment.spec.template.spec.containers.autoscaling.maxReplicas }}
+        targetCPUUtilizationPercentage: {{ .Values.redis.deployment.spec.template.spec.containers.argetCPUUtilizationPercentage }}

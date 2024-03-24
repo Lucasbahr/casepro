@@ -1,0 +1,10 @@
+.github
+/images
+*.log
+__pycache__
+*.pyc
+*.tmp
+/env/
+/venv/
+/db.sqlite3
+/node_modules/

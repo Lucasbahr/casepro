@@ -105,7 +105,7 @@ class Command(BaseCommand):
             reset_queries()
             start_time = time.time()
 
-            response = client.get(url, HTTP_HOST="%s.localhost" % subdomain)
+            response = client.get(url, HTTP_HOST="%s.0.0.0.0" % subdomain)
 
             statuses.append(response.status_code)
             request_times.append(time.time() - start_time)

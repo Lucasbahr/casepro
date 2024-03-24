@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-celery
+  namespace: {{ .Values.global.namespace }}
+spec:
+  selector:
+    app: {{ .Release.Name }}-celery
+  ports:
+    - protocol: {{ .Values.celery.service.spec.ports.protocol }}
+      port: {{ .Values.celery.service.spec.ports.port }}
+      targetPort: {{ .Values.celery.service.spec.ports.targetPort }}
+  type: {{ .Values.celery.service.spec.type }}

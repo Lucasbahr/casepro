@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: db
+  namespace: {{ .Values.global.namespace }}
+spec:
+  selector:
+    app: {{ .Release.Name }}-postgres
+  ports:
+    - port: {{ .Values.postgres.service.spec.ports.port }}
+  type: {{ .Values.postgres.service.spec.type}}

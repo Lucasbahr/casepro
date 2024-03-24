@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-celery
+  namespace: {{ .Values.global.namespace }}
+spec:
+  replicas: {{ .Values.celery.deployment.spec.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-celery
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-celery
+    spec:
+      containers:
+        - name: {{ .Release.Name }}-celery
+          image: "{{ .Values.celery.deployment.spec.template.spec.containers.image.name }}:{{ .Values.celery.deployment.spec.template.spec.containers.image.tag }}"
+          ports:
+            - containerPort: {{ .Values.celery.deployment.spec.template.spec.containers.ports.containerPort }}
+          command: ["celery", "-A", "casepro", "worker", "-Q", "celery", "-B", "-n", "casepro.celery", "--loglevel=INFO"]
+          resources:
+            limits:
+              cpu: {{ .Values.celery.deployment.spec.template.spec.containers.resources.limits.cpu }}
+              memory: {{ .Values.celery.deployment.spec.template.spec.containers.resources.limits.memory }}
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-casepro-secrets
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-casepro-secrets
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-casepro-secrets
+                  key: POSTGRES_DB
+{{- range .Values.global.commonEnv }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+{{- end }}
