@@ -30,6 +30,7 @@ fabconfig.py
 *.so
 
 # Distribution / packaging
+.env
 .Python
 env/
 .venv/
