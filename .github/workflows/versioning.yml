@@ -23,4 +23,4 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.TOKEN_GIT }}
         WITH_V: true
-        PRERELEASE: true
+        PRERELEASE: false
