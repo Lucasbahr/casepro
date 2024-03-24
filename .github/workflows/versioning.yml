@@ -1,32 +1,26 @@
-name: Semantic Versioning
-
+name: Bump version
 on:
   pull_request:
-    types: [closed]
-
+    types:
+      - closed
+    branches:
+      - master
+concurrency: production
 jobs:
-  determine-version:
-    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'master'
-    runs-on: ubuntu-latest
+  build:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    - uses: actions/checkout@v4
+      with:
+        ref: ${{ github.event.pull_request.merge_commit_sha }}
+        fetch-depth: '0'
 
-      - name: Get Last Tag
-        id: get_last_tag
-        run: |
-          last_tag=$(git tag)
-          echo "tag=${last_tag}" >> $GITHUB_ENV
-
-
-      - name: Determine Next Version
-        id: determine_next_version
-        uses: paulhatch/semantic-version@v5.3.0
-        with:
-          tag_prefix: "v"
-          major_pattern: "(MAJOR)"
-          minor_pattern: "(MINOR)"
-          version_format: "${major}.${minor}.${patch}"
-
-      - name: Use Version
-        run: echo "Next version is ${{ steps.determine_next_version.outputs.version }}"
+    - name: Bump version and push tag
+      uses: anothrNick/github-tag-action@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN_GIT }}
+        WITH_V: true
+        PRERELEASE: true
